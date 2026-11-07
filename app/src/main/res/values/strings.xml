@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Idioma por defecto: inglés. El español está en values-es/strings.xml -->
+<resources>
+    <string name="app_name">Report App</string>
+    <string name="slogan">Empowering citizens to make cities smarter.</string>
+</resources>
