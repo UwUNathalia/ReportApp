@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_register">Crear cuenta</string>
+    <string name="register_subtitle">Únete a la comunidad y ayuda a mejorar tu ciudad.</string>
+
+    <string name="hint_name">Nombre completo</string>
+    <string name="hint_email">Correo electrónico</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="hint_confirm_password">Confirmar contraseña</string>
+    <string name="helper_password">Mínimo 6 caracteres</string>
+
+    <string name="action_login">Ingresar</string>
+    <string name="action_register">Crear cuenta</string>
+    <string name="action_go_register">¿No tienes cuenta? Regístrate</string>
+    <string name="action_go_login">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="action_toggle_password">Mostrar u ocultar contraseña</string>
+
+    <string name="map_placeholder">Aquí aparecerá el mapa de reportes.</string>
+</resources>
