@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_map">Mapa</string>
+    <string name="title_my_reports">Mis reportes</string>
+    <string name="title_profile">Perfil</string>
+
+    <string name="action_back">Atrás</string>
+    <string name="action_more">Más opciones</string>
+    <string name="action_about">Acerca de</string>
+    <string name="action_logout">Cerrar sesión</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_ok">Aceptar</string>
+
+    <string name="logout_title">Cerrar sesión</string>
+    <string name="logout_message">¿Quieres cerrar sesión en Report App?</string>
+    <string name="about_message">Report App ayuda a los ciudadanos a reportar problemas de infraestructura urbana.\n\nEquipo Important People:\n• Luna Natalia Ruiz Gonzalez\n• Logan Alejandro Diaz Casas\n• Nicolas Moreno Fonseca</string>
+
+    <string name="my_reports_empty">Todavía no has creado reportes.</string>
+    <string name="profile_placeholder">Aquí aparecerán tus puntos e insignias.</string>
+</resources>

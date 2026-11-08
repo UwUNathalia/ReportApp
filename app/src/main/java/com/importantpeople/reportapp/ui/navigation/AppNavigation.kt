@@ -1,41 +1,143 @@
 package com.importantpeople.reportapp.ui.navigation
 
+import android.widget.Toast
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.importantpeople.reportapp.R
 import com.importantpeople.reportapp.ui.auth.LoginScreen
 import com.importantpeople.reportapp.ui.auth.RegisterScreen
 import com.importantpeople.reportapp.ui.map.MapScreen
+import com.importantpeople.reportapp.ui.myreports.MyReportsScreen
+import com.importantpeople.reportapp.ui.profile.ProfileScreen
+import com.importantpeople.reportapp.ui.report.CategoryScreen
 
-/** Grafo de navegación de la aplicación. */
+/** Grafo de navegación con la barra superior y el menú inferior. */
 @Composable
 fun AppNavigation() {
+    val context = LocalContext.current
     val navController = rememberNavController()
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val route = backStackEntry?.destination?.route
 
-    NavHost(navController = navController, startDestination = Routes.LOGIN) {
-        composable(Routes.LOGIN) {
-            LoginScreen(
-                onLogin = { navController.goHome() },
-                onGoRegister = { navController.navigate(Routes.REGISTER) }
-            )
+    var showAbout by rememberSaveable { mutableStateOf(false) }
+    var showLogout by rememberSaveable { mutableStateOf(false) }
+
+    Scaffold(
+        topBar = {
+            if (route != null && route !in Routes.authRoutes) {
+                ReportTopBar(
+                    title = Routes.titleFor(route),
+                    showBack = route !in Routes.tabRoutes,
+                    onBack = { navController.navigateUp() },
+                    onAbout = { showAbout = true },
+                    onLogout = { showLogout = true }
+                )
+            }
+        },
+        bottomBar = {
+            if (route in Routes.tabRoutes) {
+                ReportBottomBar(
+                    currentRoute = route,
+                    onSelect = { target -> navController.openTab(target) }
+                )
+            }
         }
-        composable(Routes.REGISTER) {
-            RegisterScreen(
-                onRegister = { navController.goHome() },
-                onGoLogin = { navController.popBackStack() }
-            )
-        }
-        composable(Routes.MAP) {
-            MapScreen()
+    ) { padding ->
+        NavHost(
+            navController = navController,
+            startDestination = Routes.LOGIN,
+            modifier = Modifier.padding(padding)
+        ) {
+            composable(Routes.LOGIN) {
+                LoginScreen(
+                    onLogin = { navController.goHome() },
+                    onGoRegister = { navController.navigate(Routes.REGISTER) }
+                )
+            }
+            composable(Routes.REGISTER) {
+                RegisterScreen(
+                    onRegister = { navController.goHome() },
+                    onGoLogin = { navController.popBackStack() }
+                )
+            }
+            composable(Routes.MAP) {
+                MapScreen(
+                    onNewReport = { lat, lng -> navController.navigate(Routes.category(lat, lng)) }
+                )
+            }
+            composable(Routes.MY_REPORTS) { MyReportsScreen() }
+            composable(Routes.PROFILE) { ProfileScreen() }
+
+            composable(
+                route = Routes.CATEGORY,
+                arguments = listOf(
+                    navArgument(Routes.ARG_LAT) { type = NavType.StringType },
+                    navArgument(Routes.ARG_LNG) { type = NavType.StringType }
+                )
+            ) { entry ->
+                CategoryScreen(
+                    latitude = entry.doubleArg(Routes.ARG_LAT),
+                    longitude = entry.doubleArg(Routes.ARG_LNG),
+                    onCategorySelected = { category ->
+                        // El formulario del reporte se agrega en la siguiente versión
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.category_selected, context.getString(category.labelRes)),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+            }
         }
     }
+
+    if (showAbout) {
+        AboutDialog(onDismiss = { showAbout = false })
+    }
+    if (showLogout) {
+        LogoutDialog(
+            onConfirm = {
+                showLogout = false
+                navController.navigate(Routes.LOGIN) {
+                    popUpTo(navController.graph.id) { inclusive = true }
+                }
+            },
+            onDismiss = { showLogout = false }
+        )
+    }
 }
+
+/** Lee un argumento numérico de la ruta (se envían como texto). */
+private fun NavBackStackEntry.doubleArg(name: String): Double =
+    arguments?.getString(name)?.toDoubleOrNull() ?: 0.0
 
 /** Va al mapa y saca el login/registro de la pila para que "atrás" no vuelva a ellos. */
 private fun NavController.goHome() {
     navigate(Routes.MAP) {
         popUpTo(Routes.LOGIN) { inclusive = true }
+    }
+}
+
+/** Cambia de pestaña sin apilar pantallas repetidas. */
+private fun NavController.openTab(route: String) {
+    navigate(route) {
+        popUpTo(Routes.MAP) { saveState = true }
+        launchSingleTop = true
+        restoreState = true
     }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mapa -->
+    <string name="map_report_here">Reportar aquí</string>
+    <string name="map_new_report">Nuevo reporte</string>
+    <string name="map_my_location">Centrar mapa</string>
+    <string name="map_osm_credit">© colaboradores de OpenStreetMap</string>
+
+    <!-- Opciones (tipo de problema) -->
+    <string name="title_category">Nuevo reporte</string>
+    <string name="category_question">¿Qué quieres reportar?</string>
+    <string name="category_location">Ubicación: %1$s</string>
+    <string name="category_selected">Seleccionaste: %1$s</string>
+
+    <!-- Categorías -->
+    <string name="cat_pothole">Hueco</string>
+    <string name="cat_pothole_desc">Huecos o daños en la vía</string>
+    <string name="cat_trash">Basura</string>
+    <string name="cat_trash_desc">Basura o escombros en la calle</string>
+    <string name="cat_lighting">Alumbrado</string>
+    <string name="cat_lighting_desc">Luminarias dañadas o apagadas</string>
+    <string name="cat_sidewalk">Andén</string>
+    <string name="cat_sidewalk_desc">Andén roto u obstruido</string>
+    <string name="cat_road_work">Obra</string>
+    <string name="cat_road_work_desc">Obras sin señalizar o que bloquean el paso</string>
+    <string name="cat_other">Otro</string>
+    <string name="cat_other_desc">Cualquier otro problema urbano</string>
+</resources>

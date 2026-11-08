@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mapa -->
+    <string name="map_report_here">Report here</string>
+    <string name="map_new_report">New report</string>
+    <string name="map_my_location">Center map</string>
+    <string name="map_osm_credit">© OpenStreetMap contributors</string>
+
+    <!-- Opciones (tipo de problema) -->
+    <string name="title_category">New report</string>
+    <string name="category_question">What do you want to report?</string>
+    <string name="category_location">Location: %1$s</string>
+    <string name="category_selected">Selected: %1$s</string>
+
+    <!-- Categorías -->
+    <string name="cat_pothole">Pothole</string>
+    <string name="cat_pothole_desc">Holes or damage on the road</string>
+    <string name="cat_trash">Trash</string>
+    <string name="cat_trash_desc">Garbage or debris on the street</string>
+    <string name="cat_lighting">Street light</string>
+    <string name="cat_lighting_desc">Broken or turned-off lights</string>
+    <string name="cat_sidewalk">Sidewalk</string>
+    <string name="cat_sidewalk_desc">Broken or blocked sidewalk</string>
+    <string name="cat_road_work">Road work</string>
+    <string name="cat_road_work_desc">Works without signs or blocking the way</string>
+    <string name="cat_other">Other</string>
+    <string name="cat_other_desc">Any other urban problem</string>
+</resources>

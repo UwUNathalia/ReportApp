@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -12,8 +11,8 @@ android {
         applicationId = "com.importantpeople.reportapp"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "0.2.0"
+        versionCode = 4
+        versionName = "0.4.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -40,6 +39,10 @@ android {
     buildFeatures {
         compose = true
     }
+    composeOptions {
+        // Versión del compilador de Compose compatible con Kotlin 1.9.24
+        kotlinCompilerExtensionVersion = "1.5.14"
+    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -64,6 +67,9 @@ dependencies {
 
     // Navegación entre pantallas
     implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    // Mapa con OpenStreetMap (no necesita API key)
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
 
     testImplementation("junit:junit:4.13.2")
 }
