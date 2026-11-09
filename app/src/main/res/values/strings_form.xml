@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="title_create_report">Report problem</string>
     <string name="form_photo">Report photo</string>
-    <string name="form_add_photo">Add report photo</string>
+    <string name="form_add_photo">Add a photo of the problem</string>
     <string name="form_camera">Camera</string>
     <string name="form_gallery">Gallery</string>
-    <string name="form_category">Problem category</string>
-    <string name="form_coming_soon">Feature available soon</string>
-    <string name="form_comment">Problem description</string>
-    <string name="form_gps_auto">Location detected</string>
-    <string name="form_sent_demo">Report sent (demo)</string>
+    <string name="form_category">Problem type</string>
+    <string name="form_comment">Comment (optional)</string>
+    <string name="form_gps_auto">Automatic GPS location</string>
     <string name="form_send">Send report</string>
+    <string name="form_coming_soon">Available in the final version</string>
+    <string name="form_sent_demo">Report sent (demo)</string>
 </resources>

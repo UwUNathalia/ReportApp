@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Estados -->
+    <string name="status_pending">Validating</string>
+    <string name="status_in_review">In review</string>
+    <string name="status_validated">Validated</string>
+    <string name="status_fixed">Fixed</string>
+    <string name="status_duplicate">Duplicate report</string>
+    <string name="status_rejected">Rejected</string>
+
+    <!-- Detalle -->
+    <string name="title_report_detail">Report details</string>
+    <string name="detail_gps">GPS: %1$s</string>
+    <string name="detail_status">Status: %1$s</string>
+    <string name="detail_date">Created: %1$s</string>
+    <string name="detail_comment">Comment</string>
+    <string name="detail_tracking">Report tracking</string>
+
+    <!-- Perfil -->
+    <string name="profile_points">Points</string>
+    <string name="profile_reports">Reports</string>
+    <string name="profile_level">Level</string>
+    <string name="profile_next_level">%1$d points to reach level %2$d</string>
+    <string name="profile_badges">Badges</string>
+    <string name="profile_ranking">Community ranking</string>
+    <string name="profile_you">%1$s (you)</string>
+    <string name="profile_points_value">%1$d pts</string>
+
+    <!-- Insignias -->
+    <string name="badge_first">First report</string>
+    <string name="badge_first_desc">Create 1 report</string>
+    <string name="badge_active">Active citizen</string>
+    <string name="badge_active_desc">Create 5 reports</string>
+    <string name="badge_guardian">City guardian</string>
+    <string name="badge_guardian_desc">Create 10 reports</string>
+    <string name="badge_hero">Urban hero</string>
+    <string name="badge_hero_desc">Create 25 reports</string>
+
+    <!-- Datos de ejemplo del avance -->
+    <string name="my_reports_example_count">3 reports</string>
+    <string name="example_comment_1">Big pothole in the right lane</string>
+    <string name="example_comment_2">Street light off for a week</string>
+    <string name="example_comment_3">Trash piling up on the corner</string>
+    <string name="example_date_1">Nov 5, 2026</string>
+    <string name="example_date_2">Nov 3, 2026</string>
+    <string name="example_date_3">Nov 1, 2026</string>
+    <string name="example_address_1">Calle 72 # 10-34</string>
+    <string name="example_initials">CU</string>
+    <string name="example_user_name">Citizen User</string>
+    <string name="example_user_email">citizen@email.com</string>
+</resources>

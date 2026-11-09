@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Estados -->
+    <string name="status_pending">Validando</string>
+    <string name="status_in_review">En revisión</string>
+    <string name="status_validated">Validado</string>
+    <string name="status_fixed">Solucionado</string>
+    <string name="status_duplicate">Reporte duplicado</string>
+    <string name="status_rejected">Rechazado</string>
+
+    <!-- Detalle -->
+    <string name="title_report_detail">Detalles del reporte</string>
+    <string name="detail_gps">GPS: %1$s</string>
+    <string name="detail_status">Estado: %1$s</string>
+    <string name="detail_date">Creado: %1$s</string>
+    <string name="detail_comment">Comentario</string>
+    <string name="detail_tracking">Seguimiento del reporte</string>
+
+    <!-- Perfil -->
+    <string name="profile_points">Puntos</string>
+    <string name="profile_reports">Reportes</string>
+    <string name="profile_level">Nivel</string>
+    <string name="profile_next_level">Te faltan %1$d puntos para el nivel %2$d</string>
+    <string name="profile_badges">Insignias</string>
+    <string name="profile_ranking">Ranking de la comunidad</string>
+    <string name="profile_you">%1$s (tú)</string>
+    <string name="profile_points_value">%1$d pts</string>
+
+    <!-- Insignias -->
+    <string name="badge_first">Primer reporte</string>
+    <string name="badge_first_desc">Crea 1 reporte</string>
+    <string name="badge_active">Ciudadano activo</string>
+    <string name="badge_active_desc">Crea 5 reportes</string>
+    <string name="badge_guardian">Guardián de la ciudad</string>
+    <string name="badge_guardian_desc">Crea 10 reportes</string>
+    <string name="badge_hero">Héroe urbano</string>
+    <string name="badge_hero_desc">Crea 25 reportes</string>
+
+    <!-- Datos de ejemplo del avance -->
+    <string name="my_reports_example_count">3 reportes</string>
+    <string name="example_comment_1">Hueco grande en el carril derecho</string>
+    <string name="example_comment_2">Poste sin luz desde hace una semana</string>
+    <string name="example_comment_3">Acumulación de basura en la esquina</string>
+    <string name="example_date_1">5 nov 2026</string>
+    <string name="example_date_2">3 nov 2026</string>
+    <string name="example_date_3">1 nov 2026</string>
+    <string name="example_address_1">Calle 72 # 10-34</string>
+    <string name="example_initials">UC</string>
+    <string name="example_user_name">Usuario Ciudadano</string>
+    <string name="example_user_email">ciudadano@correo.com</string>
+</resources>
