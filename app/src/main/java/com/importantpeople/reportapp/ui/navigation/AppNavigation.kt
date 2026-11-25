@@ -1,6 +1,5 @@
 package com.importantpeople.reportapp.ui.navigation
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -9,7 +8,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -18,18 +16,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.importantpeople.reportapp.R
+import com.importantpeople.reportapp.data.model.ReportCategory
 import com.importantpeople.reportapp.ui.auth.LoginScreen
 import com.importantpeople.reportapp.ui.auth.RegisterScreen
+import com.importantpeople.reportapp.ui.detail.ReportDetailScreen
 import com.importantpeople.reportapp.ui.map.MapScreen
 import com.importantpeople.reportapp.ui.myreports.MyReportsScreen
 import com.importantpeople.reportapp.ui.profile.ProfileScreen
 import com.importantpeople.reportapp.ui.report.CategoryScreen
+import com.importantpeople.reportapp.ui.report.CreateReportScreen
 
 /** Grafo de navegación con la barra superior y el menú inferior. */
 @Composable
 fun AppNavigation() {
-    val context = LocalContext.current
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val route = backStackEntry?.destination?.route
@@ -80,7 +79,9 @@ fun AppNavigation() {
                     onNewReport = { lat, lng -> navController.navigate(Routes.category(lat, lng)) }
                 )
             }
-            composable(Routes.MY_REPORTS) { MyReportsScreen() }
+            composable(Routes.MY_REPORTS) {
+                MyReportsScreen(onReportClick = { navController.navigate(Routes.DETAIL) })
+            }
             composable(Routes.PROFILE) { ProfileScreen() }
 
             composable(
@@ -94,15 +95,37 @@ fun AppNavigation() {
                     latitude = entry.doubleArg(Routes.ARG_LAT),
                     longitude = entry.doubleArg(Routes.ARG_LNG),
                     onCategorySelected = { category ->
-                        // El formulario del reporte se agrega en la siguiente versión
-                        Toast.makeText(
-                            context,
-                            context.getString(R.string.category_selected, context.getString(category.labelRes)),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        navController.navigate(
+                            Routes.createReport(
+                                category,
+                                entry.doubleArg(Routes.ARG_LAT),
+                                entry.doubleArg(Routes.ARG_LNG)
+                            )
+                        )
                     }
                 )
             }
+            composable(
+                route = Routes.CREATE_REPORT,
+                arguments = listOf(
+                    navArgument(Routes.ARG_CATEGORY) { type = NavType.StringType },
+                    navArgument(Routes.ARG_LAT) { type = NavType.StringType },
+                    navArgument(Routes.ARG_LNG) { type = NavType.StringType }
+                )
+            ) { entry ->
+                CreateReportScreen(
+                    category = ReportCategory.fromName(entry.arguments?.getString(Routes.ARG_CATEGORY)),
+                    latitude = entry.doubleArg(Routes.ARG_LAT),
+                    longitude = entry.doubleArg(Routes.ARG_LNG),
+                    onSent = {
+                        // Vuelve al mapa y cierra el flujo de reporte
+                        navController.navigate(Routes.MAP) {
+                            popUpTo(Routes.MAP) { inclusive = true }
+                        }
+                    }
+                )
+            }
+            composable(Routes.DETAIL) { ReportDetailScreen() }
         }
     }
 

@@ -1,17 +1,31 @@
 package com.importantpeople.reportapp.ui.profile
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.importantpeople.reportapp.R
-import com.importantpeople.reportapp.ui.components.EmptyState
+import com.importantpeople.reportapp.data.model.Badge
 
-/** Pestaña "Perfil" (estructura inicial; puntos e insignias se agregan después). */
+/**
+ * Pestaña "Perfil y recompensas". En el avance muestra valores de ejemplo;
+ * los puntos reales se calculan en la entrega final.
+ */
 @Composable
 fun ProfileScreen() {
-    EmptyState(
-        icon = Icons.Filled.Person,
-        title = stringResource(R.string.profile_placeholder)
+    ProfileContent(
+        name = stringResource(R.string.example_user_name),
+        email = stringResource(R.string.example_user_email),
+        initials = stringResource(R.string.example_initials),
+        points = 30,
+        reportsCount = 3,
+        level = 1,
+        levelProgress = 0.6f,
+        pointsToNextLevel = 20,
+        badges = Badge.entries.map { it to it.isUnlocked(3) },
+        leaderboard = listOf(
+            LeaderRow("Laura Gómez", 180),
+            LeaderRow("Andrés Pérez", 120),
+            LeaderRow("Camila Rojas", 90),
+            LeaderRow(stringResource(R.string.example_user_name), 30, isMe = true)
+        )
     )
 }
