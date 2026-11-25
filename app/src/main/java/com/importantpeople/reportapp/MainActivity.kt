@@ -1,46 +1,32 @@
 package com.importantpeople.reportapp
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.importantpeople.reportapp.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import com.importantpeople.reportapp.ui.navigation.AppNavigation
+import com.importantpeople.reportapp.ui.theme.ReportAppTheme
 
 /**
- * Única actividad de la app (Single Activity). Toda la navegación se hace
- * con fragments definidos en res/navigation/nav_graph.xml.
+ * Única actividad de la app. Toda la interfaz está hecha con Jetpack Compose
+ * y la navegación entre pantallas se define en AppNavigation.
  */
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
-    private val authDestinations = setOf(R.id.loginFragment, R.id.registerFragment)
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
-
-        val navHost = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHost.navController
-
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.loginFragment, R.id.mapFragment))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        // En login y registro se oculta la barra superior
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.toolbar.isVisible = destination.id !in authDestinations
+        setContent {
+            ReportAppTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    AppNavigation()
+                }
+            }
         }
     }
-
-    override fun onSupportNavigateUp(): Boolean =
-        navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 }
