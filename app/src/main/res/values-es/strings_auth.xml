@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="title_login">Iniciar sesión</string>
     <string name="title_register">Crear cuenta</string>
     <string name="register_subtitle">Únete a la comunidad y ayuda a mejorar tu ciudad.</string>
 

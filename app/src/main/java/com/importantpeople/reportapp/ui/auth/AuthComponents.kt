@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.importantpeople.reportapp.R
 import com.importantpeople.reportapp.ui.theme.TextSecondary
 
-/** Logo, nombre y es logan que se muestran arriba del login. */
+/** Logo, nombre y eslogan que se muestran arriba del login. */
 @Composable
 fun AuthHeader(modifier: Modifier = Modifier) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
