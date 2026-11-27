@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_invalid_email">Ingresa un correo válido</string>
+    <string name="error_invalid_password">La contraseña debe tener mínimo 6 caracteres</string>
+    <string name="error_invalid_name">Ingresa tu nombre (mínimo 3 letras)</string>
+    <string name="error_password_mismatch">Las contraseñas no coinciden</string>
+    <string name="error_generic">Algo salió mal. Inténtalo de nuevo.</string>
+</resources>
