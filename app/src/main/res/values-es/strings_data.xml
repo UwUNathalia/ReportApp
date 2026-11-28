@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="my_reports_empty_hint">Ve al mapa y toca \"Nuevo reporte\" para crear el primero.</string>
+    <plurals name="my_reports_count">
+        <item quantity="one">%d reporte</item>
+        <item quantity="other">%d reportes</item>
+    </plurals>
+    <string name="detail_no_comment">Sin comentario</string>
+    <string name="detail_not_found">No se encontró el reporte</string>
+</resources>

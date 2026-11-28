@@ -43,7 +43,7 @@ fun CreateReportScreen(
     var selected by rememberSaveable { mutableStateOf(category) }
     var comment by rememberSaveable { mutableStateOf("") }
 
-    val comingSoon: () -> Unit = {
+    val comingSoon = {
         Toast.makeText(context, R.string.form_coming_soon, Toast.LENGTH_SHORT).show()
     }
 

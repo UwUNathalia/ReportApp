@@ -1,23 +1,50 @@
 package com.importantpeople.reportapp.ui.detail
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SearchOff
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.importantpeople.reportapp.R
-import com.importantpeople.reportapp.data.model.ReportCategory
-import com.importantpeople.reportapp.data.model.ReportStatus
+import com.importantpeople.reportapp.ui.components.EmptyState
+import com.importantpeople.reportapp.ui.components.rememberReportPhoto
+import com.importantpeople.reportapp.util.Formatters
 
-/**
- * Detalle de un reporte (basado en el mockup "Detalles del Reporte").
- * En el avance muestra un reporte de ejemplo; en la entrega final
- * se cargará el reporte real desde la base de datos.
- */
+/** Detalle de un reporte con su estado (basado en el mockup "Detalles del Reporte"). */
 @Composable
-fun ReportDetailScreen() {
-    ReportDetailContent(
-        category = ReportCategory.POTHOLE,
-        location = stringResource(R.string.example_address_1),
-        status = ReportStatus.IN_REVIEW,
-        date = stringResource(R.string.example_date_1),
-        comment = stringResource(R.string.example_comment_1)
-    )
+fun ReportDetailScreen(
+    reportId: String,
+    viewModel: ReportDetailViewModel = viewModel()
+) {
+    LaunchedEffect(reportId) { viewModel.load(reportId) }
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val report = state.report
+
+    when {
+        state.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+
+        report == null -> EmptyState(
+            icon = Icons.Filled.SearchOff,
+            title = stringResource(R.string.detail_not_found)
+        )
+
+        else -> ReportDetailContent(
+            category = report.category,
+            location = report.address.ifBlank { Formatters.coordinates(report.latitude, report.longitude) },
+            status = report.status,
+            date = Formatters.date(report.createdAt),
+            comment = report.comment.ifBlank { stringResource(R.string.detail_no_comment) },
+            photo = rememberReportPhoto(report)
+        )
+    }
 }

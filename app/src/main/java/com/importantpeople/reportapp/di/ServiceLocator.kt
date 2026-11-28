@@ -1,5 +1,7 @@
 package com.importantpeople.reportapp.di
 
+import com.importantpeople.reportapp.data.repository.AuthRepository
+import com.importantpeople.reportapp.data.repository.FakeAuthRepository
 import com.importantpeople.reportapp.data.repository.FakeReportRepository
 import com.importantpeople.reportapp.data.repository.ReportRepository
 
@@ -8,5 +10,6 @@ import com.importantpeople.reportapp.data.repository.ReportRepository
  * Por ahora se usan datos de ejemplo; después solo se cambian aquí por Firebase.
  */
 object ServiceLocator {
+    val authRepository: AuthRepository by lazy { FakeAuthRepository() }
     val reportRepository: ReportRepository by lazy { FakeReportRepository() }
 }

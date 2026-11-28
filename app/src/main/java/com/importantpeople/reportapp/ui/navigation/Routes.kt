@@ -25,7 +25,9 @@ object Routes {
         "create/${category.name}/$lat/$lng"
 
     // Detalle de un reporte
-    const val DETAIL = "detail"
+    const val ARG_REPORT_ID = "reportId"
+    const val DETAIL = "detail/{$ARG_REPORT_ID}"
+    fun detail(reportId: String) = "detail/$reportId"
 
     /** Pantallas sin barra superior. */
     val authRoutes = setOf(LOGIN, REGISTER)

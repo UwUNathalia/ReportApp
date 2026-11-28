@@ -5,9 +5,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -28,8 +30,10 @@ import com.importantpeople.reportapp.ui.report.CreateReportScreen
 
 /** Grafo de navegación con la barra superior y el menú inferior. */
 @Composable
-fun AppNavigation() {
+fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
     val navController = rememberNavController()
+    // Si ya hay sesión iniciada se entra directo al mapa
+    val startDestination = remember { if (mainViewModel.isLoggedIn()) Routes.MAP else Routes.LOGIN }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val route = backStackEntry?.destination?.route
 
@@ -59,7 +63,7 @@ fun AppNavigation() {
     ) { padding ->
         NavHost(
             navController = navController,
-            startDestination = Routes.LOGIN,
+            startDestination = startDestination,
             modifier = Modifier.padding(padding)
         ) {
             composable(Routes.LOGIN) {
@@ -76,11 +80,12 @@ fun AppNavigation() {
             }
             composable(Routes.MAP) {
                 MapScreen(
-                    onNewReport = { lat, lng -> navController.navigate(Routes.category(lat, lng)) }
+                    onNewReport = { lat, lng -> navController.navigate(Routes.category(lat, lng)) },
+                    onReportClick = { id -> navController.navigate(Routes.detail(id)) }
                 )
             }
             composable(Routes.MY_REPORTS) {
-                MyReportsScreen(onReportClick = { navController.navigate(Routes.DETAIL) })
+                MyReportsScreen(onReportClick = { id -> navController.navigate(Routes.detail(id)) })
             }
             composable(Routes.PROFILE) { ProfileScreen() }
 
@@ -125,7 +130,12 @@ fun AppNavigation() {
                     }
                 )
             }
-            composable(Routes.DETAIL) { ReportDetailScreen() }
+            composable(
+                route = Routes.DETAIL,
+                arguments = listOf(navArgument(Routes.ARG_REPORT_ID) { type = NavType.StringType })
+            ) { entry ->
+                ReportDetailScreen(reportId = entry.arguments?.getString(Routes.ARG_REPORT_ID).orEmpty())
+            }
         }
     }
 
@@ -136,6 +146,7 @@ fun AppNavigation() {
         LogoutDialog(
             onConfirm = {
                 showLogout = false
+                mainViewModel.logout()
                 navController.navigate(Routes.LOGIN) {
                     popUpTo(navController.graph.id) { inclusive = true }
                 }

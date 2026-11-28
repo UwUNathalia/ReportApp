@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="my_reports_empty_hint">Go to the map and tap \"New report\" to create your first one.</string>
+    <plurals name="my_reports_count">
+        <item quantity="one">%d report</item>
+        <item quantity="other">%d reports</item>
+    </plurals>
+    <string name="detail_no_comment">No comment</string>
+    <string name="detail_not_found">The report was not found</string>
+</resources>

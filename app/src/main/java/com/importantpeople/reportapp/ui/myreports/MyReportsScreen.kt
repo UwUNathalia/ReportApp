@@ -1,63 +1,81 @@
 package com.importantpeople.reportapp.ui.myreports
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.importantpeople.reportapp.R
-import com.importantpeople.reportapp.data.model.ReportCategory
-import com.importantpeople.reportapp.data.model.ReportStatus
+import com.importantpeople.reportapp.ui.components.EmptyState
 import com.importantpeople.reportapp.ui.components.ReportCard
+import com.importantpeople.reportapp.ui.components.rememberReportPhoto
 import com.importantpeople.reportapp.ui.theme.SurfaceGray
 import com.importantpeople.reportapp.ui.theme.TextSecondary
+import com.importantpeople.reportapp.util.Formatters
 
-/**
- * Pestaña "Mis reportes". En el avance muestra reportes de ejemplo;
- * en la entrega final la lista vendrá de la base de datos.
- */
+/** Pestaña "Mis reportes": historial y estado de los reportes del usuario. */
 @Composable
-fun MyReportsScreen(onReportClick: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(SurfaceGray)
-            .verticalScroll(rememberScrollState())
-            .padding(8.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.my_reports_example_count),
-            style = MaterialTheme.typography.labelLarge,
-            color = TextSecondary,
-            modifier = Modifier.padding(8.dp)
+fun MyReportsScreen(
+    onReportClick: (reportId: String) -> Unit,
+    viewModel: MyReportsViewModel = viewModel()
+) {
+    val context = LocalContext.current
+    val reports by viewModel.reports.collectAsStateWithLifecycle()
+    val list = reports
+
+    when {
+        list == null -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+
+        list.isEmpty() -> EmptyState(
+            icon = Icons.AutoMirrored.Filled.List,
+            title = stringResource(R.string.my_reports_empty),
+            subtitle = stringResource(R.string.my_reports_empty_hint)
         )
-        ReportCard(
-            category = ReportCategory.POTHOLE,
-            comment = stringResource(R.string.example_comment_1),
-            date = stringResource(R.string.example_date_1),
-            status = ReportStatus.IN_REVIEW,
-            onClick = onReportClick
-        )
-        ReportCard(
-            category = ReportCategory.LIGHTING,
-            comment = stringResource(R.string.example_comment_2),
-            date = stringResource(R.string.example_date_2),
-            status = ReportStatus.VALIDATED,
-            onClick = onReportClick
-        )
-        ReportCard(
-            category = ReportCategory.TRASH,
-            comment = stringResource(R.string.example_comment_3),
-            date = stringResource(R.string.example_date_3),
-            status = ReportStatus.PENDING,
-            onClick = onReportClick
-        )
+
+        else -> LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(SurfaceGray),
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            item {
+                Text(
+                    text = context.resources.getQuantityString(R.plurals.my_reports_count, list.size, list.size),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = TextSecondary,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+            items(list, key = { it.id }) { report ->
+                ReportCard(
+                    category = report.category,
+                    comment = report.comment.ifBlank {
+                        report.address.ifBlank { Formatters.coordinates(report.latitude, report.longitude) }
+                    },
+                    date = Formatters.date(report.createdAt),
+                    status = report.status,
+                    photo = rememberReportPhoto(report),
+                    onClick = { onReportClick(report.id) }
+                )
+            }
+        }
     }
 }

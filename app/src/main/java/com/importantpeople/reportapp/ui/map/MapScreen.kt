@@ -13,26 +13,45 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.importantpeople.reportapp.R
 import org.osmdroid.util.GeoPoint
 
 /**
- * Pantalla 1 del flujo de reporte: mapa de la ciudad.
- * El pin del centro indica dónde se va a crear el reporte.
- * En el avance todavía no se muestran los reportes guardados ni la ubicación GPS.
+ * Pantalla 1 del flujo de reporte: mapa con los reportes de la ciudad.
+ * El pin del centro indica dónde se va a crear el nuevo reporte.
  */
 @Composable
-fun MapScreen(onNewReport: (latitude: Double, longitude: Double) -> Unit) {
-    val mapView = rememberMapViewWithLifecycle()
+fun MapScreen(
+    onNewReport: (latitude: Double, longitude: Double) -> Unit,
+    onReportClick: (reportId: String) -> Unit,
+    viewModel: MapViewModel = viewModel()
+) {
+    val reports by viewModel.reports.collectAsStateWithLifecycle()
+    val mapView = rememberMapViewWithLifecycle(
+        initialLat = viewModel.lastLatitude,
+        initialLng = viewModel.lastLongitude,
+        initialZoom = viewModel.lastZoom,
+        onDispose = { map ->
+            // Se guarda la posición para volver al mismo lugar
+            viewModel.saveCamera(map.mapCenter.latitude, map.mapCenter.longitude, map.zoomLevelDouble)
+        }
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
-        AndroidView(factory = { mapView }, modifier = Modifier.fillMaxSize())
+        AndroidView(
+            factory = { mapView },
+            modifier = Modifier.fillMaxSize(),
+            update = { map -> map.showReportMarkers(reports) { report -> onReportClick(report.id) } }
+        )
 
         CenterPin(
             modifier = Modifier
